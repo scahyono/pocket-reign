@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple 4X</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- UI Overlay -->
+        <div id="ui-layer">
+            <!-- Top Bar: Resources -->
+            <div id="resource-bar" class="panel">
+                <div class="resource">
+                    <span class="icon">💰</span>
+                    <span id="gold-display">0</span>
+                    <span class="label">Gold</span>
+                </div>
+                <div class="resource">
+                    <span class="icon">🚩</span>
+                    <span id="territory-display">0</span>
+                    <span class="label">Territory</span>
+                </div>
+                <div class="turn-info">
+                    Turn: <span id="turn-display">1</span>
+                </div>
+            </div>
+
+            <!-- Global Actions -->
+            <div id="global-actions" class="panel">
+                <button id="recruit-btn" class="btn primary">
+                    Recruit Warrior (50💰)
+                </button>
+                <button id="help-btn" class="btn">
+                    Help / Legend
+                </button>
+            </div>
+
+            <!-- Bottom Left: Selected Unit Info -->
+            <div id="selection-panel" class="panel hidden">
+                <h2 id="selection-name">Selection</h2>
+                <div id="selection-details"></div>
+            </div>
+
+            <!-- Bottom Right: End Turn -->
+            <div id="turn-controls">
+                <button id="end-turn-btn" class="btn primary">End Turn</button>
+            </div>
+
+            <!-- Notifications -->
+            <div id="notifications"></div>
+
+            <!-- Help Modal -->
+            <div id="help-modal" class="modal hidden">
+                <div class="modal-content">
+                    <span id="close-help" class="close">&times;</span>
+                    <h2>Game Rules & Legend</h2>
+
+                    <h3>Goal</h3>
+                    <p>Control <strong>50%</strong> of the land to win!</p>
+
+                    <h3>Controls</h3>
+                    <ul>
+                        <li><strong>Move</strong>: Select unit, click adjacent tile.</li>
+                        <li><strong>Claim</strong>: Moving to a tile claims it.</li>
+                        <li><strong>Recruit</strong>: Spend 50 Gold to spawn a Warrior.</li>
+                    </ul>
+
+                    <h3>Terrain Legend</h3>
+                    <div class="legend-grid">
+                        <div class="legend-item">
+                            <div class="swatch grass"></div> Grass (Cost: 1)
+                        </div>
+                        <div class="legend-item">
+                            <div class="swatch forest"></div> Forest (Cost: 2)
+                        </div>
+                        <div class="legend-item">
+                            <div class="swatch sand"></div> Desert (Cost: 1)
+                        </div>
+                        <div class="legend-item">
+                            <div class="swatch mountain"></div> Mountain (Blocked)
+                        </div>
+                        <div class="legend-item">
+                            <div class="swatch water"></div> Water (Blocked)
+                        </div>
+                        <div class="legend-item">
+                            <div class="swatch player-territory"></div> Your Territory
+                        </div>
+                        <div class="legend-item">
+                            <div class="swatch enemy-territory"></div> Enemy Territory
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Over Modal -->
+            <div id="game-over-modal" class="modal hidden">
+                <div class="modal-content text-center">
+                    <h2 id="game-over-title">Game Over</h2>
+                    <p id="game-over-message"></p>
+                    <button id="restart-btn" class="btn primary large">Play Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
