@@ -192,6 +192,11 @@ class Game {
         labelEl.textContent = this.faction.label;
     }
 
+    getUnitSymbol(unit) {
+        if (!unit) return '';
+        return unit.owner === 'player' ? this.faction.player : this.faction.enemy;
+    }
+
     loop() {
         this.update();
         this.render();
@@ -968,7 +973,7 @@ class Game {
                     this.ctx.font = `${Math.floor(this.tileSize * 0.4)}px Arial`;
                     this.ctx.textAlign = 'center';
                     this.ctx.textBaseline = 'middle';
-                    const symbol = UNITS[u.type].symbol;
+                    const symbol = this.getUnitSymbol(u);
                     this.ctx.fillText(symbol, drawX + this.tileSize / 2, drawY + this.tileSize / 2);
 
                     if (u.movesLeft < u.maxMoves) {
