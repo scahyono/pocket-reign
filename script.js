@@ -144,6 +144,7 @@ class Game {
         this.generateMap();
         this.calculateLayout();
         this.spawnInitialUnits();
+        this.refreshUnitIcons();
         this.setupInput();
         this.renderFactionList();
         this.updateUI();
@@ -192,9 +193,14 @@ class Game {
         labelEl.textContent = this.faction.label;
     }
 
+    getFactionIcon(owner) {
+        return owner === 'player' ? this.faction.player : this.faction.enemy;
+    }
+
     getUnitSymbol(unit) {
         if (!unit) return '';
-        return unit.owner === 'player' ? this.faction.player : this.faction.enemy;
+        if (unit.icon) return unit.icon;
+        return this.getFactionIcon(unit.owner);
     }
 
     loop() {
@@ -256,6 +262,7 @@ class Game {
         } while (this.map[startY][startX].type.moveCost === Infinity);
 
         const warrior = new Unit('WARRIOR', 'player', startX, startY);
+        warrior.icon = this.getFactionIcon('player');
         this.addUnit(warrior);
         this.claimTile(startX, startY, 'player');
         this.revealMap(startX, startY, 2);
@@ -280,8 +287,15 @@ class Game {
         }
 
         const enemyWarrior = new Unit('WARRIOR', 'enemy', enemyX, enemyY);
+        enemyWarrior.icon = this.getFactionIcon('enemy');
         this.addUnit(enemyWarrior);
         this.claimTile(enemyX, enemyY, 'enemy');
+    }
+
+    refreshUnitIcons() {
+        this.units.forEach(unit => {
+            unit.icon = this.getFactionIcon(unit.owner);
+        });
     }
 
     getNeighbors(x, y) {
@@ -714,6 +728,7 @@ class Game {
 
         resources.gold -= cost;
         const newUnit = new Unit('WARRIOR', owner, spawnTile.x, spawnTile.y);
+        newUnit.icon = this.getFactionIcon(owner);
         this.addUnit(newUnit);
         this.claimTile(spawnTile.x, spawnTile.y, owner);
 
@@ -970,7 +985,7 @@ class Game {
                     }
 
                     this.ctx.fillStyle = u.owner === 'player' ? '#000' : '#500';
-                    this.ctx.font = `${Math.floor(this.tileSize * 0.4)}px Arial`;
+                    this.ctx.font = `bold ${Math.floor(this.tileSize * 0.55)}px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif`;
                     this.ctx.textAlign = 'center';
                     this.ctx.textBaseline = 'middle';
                     const symbol = this.getUnitSymbol(u);
