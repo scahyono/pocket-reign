@@ -766,6 +766,18 @@ canvas {
     color: #ccc;
 }
 
+.faction-prayer {
+    font-size: 1.05em;
+    color: #b0e6b0;
+    margin: 10px 0 20px;
+    line-height: 1.5;
+    font-weight: 600;
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    border-radius: 8px;
+    padding: 12px 14px;
+}
+
 /* Mobile Adaptation */
 @media (max-width: 768px) {
 
