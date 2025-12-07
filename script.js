@@ -564,8 +564,12 @@ class Game {
     }
 
     getTileAt(screenX, screenY) {
-        const x = Math.floor((screenX - this.offsetX) / this.tileSize);
-        const y = Math.floor((screenY - this.offsetY) / this.tileSize);
+        const rect = this.canvas.getBoundingClientRect();
+        const canvasX = screenX - rect.left;
+        const canvasY = screenY - rect.top;
+
+        const x = Math.floor((canvasX - this.offsetX) / this.tileSize);
+        const y = Math.floor((canvasY - this.offsetY) / this.tileSize);
 
         if (x >= 0 && x < MAP_WIDTH && y >= 0 && y < MAP_HEIGHT) {
             return this.map[y][x];

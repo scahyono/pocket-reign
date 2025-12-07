@@ -216,11 +216,15 @@ canvas {
 }
 
 #notifications {
+    position: fixed;
+    top: 16px;
+    right: 16px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     pointer-events: none;
-    align-self: stretch;
+    width: min(360px, calc(100% - 32px));
+    z-index: 90;
 }
 
 .notification {
