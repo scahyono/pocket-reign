@@ -312,10 +312,12 @@ canvas {
 
 .modal-content {
     background: #222;
-    padding: 30px;
+    padding: 24px;
     border-radius: 12px;
     width: 500px;
     max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
     border: 1px solid var(--border-color);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     position: relative;
@@ -360,6 +362,11 @@ canvas {
     margin-top: 15px;
 }
 
+#faction-list {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 8px;
+}
+
 .legend-item {
     display: flex;
     align-items: center;
@@ -372,7 +379,17 @@ canvas {
 }
 
 .faction-item {
-    font-weight: 600;
+    font-weight: 700;
+    justify-content: center;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.faction-item .vs {
+    opacity: 0.65;
+    padding: 0 4px;
+    font-size: 0.9em;
 }
 
 .swatch {

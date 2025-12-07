@@ -251,7 +251,8 @@ class Game {
         FACTIONS.forEach(faction => {
             const item = document.createElement('div');
             item.className = 'legend-item faction-item';
-            item.innerHTML = `<span class="icon">${faction.player}</span> vs <span class="icon">${faction.enemy}</span> — ${faction.label}`;
+            item.innerHTML = `<span class="icon">${faction.player}</span><span class="vs">/</span><span class="icon">${faction.enemy}</span>`;
+            item.title = faction.label;
             listEl.appendChild(item);
         });
     }
