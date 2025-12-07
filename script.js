@@ -537,7 +537,10 @@ class Game {
         this.canvas.addEventListener('mousedown', (e) => this.handleClick(e));
         document.getElementById('end-turn-btn').addEventListener('click', () => this.endTurn());
         document.getElementById('recruit-btn').addEventListener('click', () => this.recruitUnit('player'));
-        document.getElementById('restart-btn').addEventListener('click', () => location.reload());
+        document.getElementById('restart-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            location.reload();
+        });
 
         const modal = document.getElementById('help-modal');
         document.getElementById('help-btn').addEventListener('click', () => {
