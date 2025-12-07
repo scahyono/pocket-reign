@@ -15,13 +15,21 @@
     user-select: none;
 }
 
+html {
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
 body {
     font-family: var(--font-main);
     background-color: var(--bg-color);
     color: var(--text-color);
     height: 100vh;
+    min-height: 100dvh;
     width: 100vw;
     overflow: hidden;
+    overscroll-behavior: none;
 }
 
 .hidden {
@@ -31,7 +39,7 @@ body {
 #game-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100dvh;
     width: 100%;
 }
 
@@ -149,11 +157,12 @@ body {
 /* Board Section */
 #board-section {
     display: flex;
-    padding: 12px 16px;
+    padding: 10px 16px 8px;
     min-height: 320px;
-    flex: 1 1 auto;
+    flex: 1 1 0;
     align-items: center;
     justify-content: center;
+    overscroll-behavior: contain;
 }
 
 canvas {
@@ -161,9 +170,9 @@ canvas {
     background-color: #0a0a0a;
     width: 100%;
     height: 100%;
+    max-height: 100%;
+    max-width: 100%;
     aspect-ratio: 1 / 1;
-    max-height: calc(100vh - 220px);
-    max-width: calc(100vw - 32px);
     border-radius: 12px;
     border: 1px solid var(--border-color);
 }
@@ -173,7 +182,7 @@ canvas {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    padding: 0 16px 12px;
+    padding: 0 16px 8px;
     align-items: flex-start;
     justify-content: flex-end;
 }
