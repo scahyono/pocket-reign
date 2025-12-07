@@ -21,21 +21,21 @@ const FACTIONS = [
         enemy: '⚔️',
         label: 'Warrior vs Warrior',
         prayer: '⚔️ O Almighty, grant me the strength to face every real warrior that rises against me.',
-        link: 'https://tasks.google.com/list/default'
+        link: 'https://tasks.google.com'
     },
     {
         player: '👨‍⚕️',
         enemy: '🦠',
         label: 'Healer vs Disease',
         prayer: '🧬 O Healer, protect my body and spirit from every real disease that approaches.',
-        link: 'https://tasks.google.com/list/default'
+        link: 'https://tasks.google.com'
     },
     {
         player: '🏃',
         enemy: '🍔',
         label: 'Discipline vs Temptation',
         prayer: '💪 O Protector, guard my heart from the pull of real temptation.',
-        link: 'https://tasks.google.com/list/default'
+        link: 'https://tasks.google.com'
     },
     {
         player: '🧘',
