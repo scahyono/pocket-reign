@@ -3,7 +3,7 @@
 Pocket Reign is a minimalist 4X-inspired browser game where you race an opposing faction to claim a procedurally generated map. Move warriors across tiles, capture territory, and reach 50% map control to win.
 
 ## Play Now
-- **Web:** [Pocket Reign Demo](https://scahyono.github.io/pocket-reign/imdex.html)
+- **Web:** [Pocket Reign Demo](https://scahyono.github.io/pocket-reign/index.html)
 
 ## How to Play
 - **Win Condition:** Control **50%** of the land before your rival does.
