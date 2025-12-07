@@ -760,6 +760,38 @@ canvas {
     margin-top: 20px;
 }
 
+.btn.danger {
+    background: #e53935;
+}
+
+.btn.danger:hover {
+    background: #d32f2f;
+}
+
+.plain-link {
+    color: #8c8c8c;
+    text-decoration: underline;
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: none;
+}
+
+.plain-link:hover {
+    color: #a0a0a0;
+}
+
+.game-over-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
 #game-over-message {
     font-size: 1.1em;
     margin: 20px 0;
