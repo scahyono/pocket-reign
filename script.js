@@ -53,7 +53,7 @@ const FACTIONS = [
         enemy: '📉',
         label: 'Business vs Setbacks',
         prayer: '📈 O Sustainer, lift me through real setbacks and strengthen my steps.',
-        link: 'https://outlook.office.com/mail/',
+        link: 'https://calendar.google.com/calendar/r/day',
         button: 'Plan Strategy'
     },
     {
@@ -84,7 +84,7 @@ const FACTIONS = [
         player: '🧹',
         enemy: '💧',
         label: 'Mop vs Leak',
-        prayer: '� O Purifier, grant me swiftness to contain the mess and remove every spot of disorder.',
+        prayer: '� O Purifier, grant me swiftness to contain the mess and remove hazards.',
         link: 'https://music.youtube.com/',
         button: 'Wipe Clean'
     },
