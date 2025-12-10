@@ -38,7 +38,7 @@ const FACTIONS = [
         label: 'Discipline vs Temptation',
         prayer: '💪 O Protector, guard my heart from the pull of real temptation.',
         link: 'https://tasks.google.com',
-        button: 'Stay Hard'
+        button: 'Stay Strong'
     },
     {
         player: '🧘',
@@ -53,7 +53,7 @@ const FACTIONS = [
         enemy: '📉',
         label: 'Business vs Setbacks',
         prayer: '📈 O Sustainer, lift me through real setbacks and strengthen my steps.',
-        link: 'https://calendar.google.com/calendar/r/day',
+        link: 'https://outlook.office.com/mail/',
         button: 'Plan Strategy'
     },
     {
@@ -75,23 +75,23 @@ const FACTIONS = [
     {
         player: '🧺',
         enemy: '👟',
-        label: 'Basket vs Shoe',
-        prayer: '🏀 O Guide, align my aim and help me rise over every real obstacle.',
+        label: 'Basket vs Pile',
+        prayer: '✨ O Focus, grant me the energy to restore order to this space.',
         link: 'https://music.youtube.com/',
-        button: 'Take the Shot'
+        button: 'Walk & Drop'
     },
     {
         player: '🧹',
         enemy: '💧',
-        label: 'Mop vs Spill',
-        prayer: '🧼 O Purifier, give me patience to restore order from every real spill.',
+        label: 'Mop vs Leak',
+        prayer: '� O Purifier, grant me swiftness to contain the mess and remove every spot of disorder.',
         link: 'https://music.youtube.com/',
-        button: 'Restore Order'
+        button: 'Wipe Clean'
     },
     {
         player: '✨',
         enemy: '🕳️',
-        label: 'Light vs Void',
+        label: 'Clarify vs Fog',
         prayer: '✨ O Light of the heavens and the earth, illuminate every real void I face.',
         link: 'https://notebooklm.google.com/',
         button: 'Seek Wisdom'
