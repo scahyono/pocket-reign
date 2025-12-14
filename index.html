@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pocket Reign</title>
+    <title>Stoic Reign</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
@@ -16,7 +16,7 @@
         <section id="top-section">
             <div id="branding-bar" class="panel">
                 <div class="branding-titles">
-                    <h1 class="game-title">Pocket Reign</h1>
+                    <h1 class="game-title">Stoic Reign</h1>
                     <p class="game-tagline">Claim the realm before your rival.</p>
                 </div>
                 <div id="faction-display" class="faction">
@@ -133,7 +133,10 @@
                     <span class="cta-halo" aria-hidden="true">😇</span>
                 </a>
                 <div id="delay-panel" class="panel delay-panel">
-                    <p id="tier-drop" class="tier-drop" role="button" tabindex="0" aria-expanded="false">Self Control Tier 10 → Tier 9</p>
+                    <p id="tier-drop" class="tier-drop" role="button" tabindex="0" aria-expanded="false">
+                        <span id="tier-drop-text" class="tier-drop-text">Self Control Tier 10 → Tier 9</span>
+                        <span class="tier-chevron" aria-hidden="true">▾</span>
+                    </p>
                     <div id="tier-info" class="tier-info hidden" aria-live="polite">
                         <p id="tier-description" class="tier-description">Every session drops your Self Control Tier and enforces the Constant Decimation cooldown.</p>
                         <p class="tier-reset">Next reset to Tier 10: <span id="tier-reset-time">--</span></p>

@@ -1,5 +1,5 @@
 /**
- * Pocket Reign - Territory Edition
+ * Stoic Reign - Territory Edition
  * 
  * Core Logic:
  * - Game Loop (requestAnimationFrame)
@@ -157,6 +157,8 @@ class DecimationProtocol {
         this.timerInterval = null;
 
         this.tierDropEl = document.getElementById('tier-drop');
+        this.tierDropTextEl = document.getElementById('tier-drop-text');
+        this.tierChevronEl = this.tierDropEl ? this.tierDropEl.querySelector('.tier-chevron') : null;
         this.tierInfoEl = document.getElementById('tier-info');
         this.tierDescriptionEl = document.getElementById('tier-description');
         this.tierResetTimeEl = document.getElementById('tier-reset-time');
@@ -221,6 +223,7 @@ class DecimationProtocol {
         const willShow = this.tierInfoEl.classList.contains('hidden');
         this.tierInfoEl.classList.toggle('hidden');
         this.tierDropEl.setAttribute('aria-expanded', String(willShow));
+        this.tierDropEl.classList.toggle('expanded', willShow);
         if (willShow) {
             this.updateResetInfo();
         }
@@ -310,7 +313,9 @@ class DecimationProtocol {
     }
 
     updateDelayTexts(previousTier, nextTier) {
-        if (this.tierDropEl) {
+        if (this.tierDropTextEl) {
+            this.tierDropTextEl.innerText = `Self Control Tier ${previousTier} → Tier ${nextTier}`;
+        } else if (this.tierDropEl) {
             this.tierDropEl.innerText = `Self Control Tier ${previousTier} → Tier ${nextTier}`;
         }
         this.updateResetInfo();
