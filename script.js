@@ -158,8 +158,6 @@ class DecimationProtocol {
 
         this.tierDropEl = document.getElementById('tier-drop');
         this.delayTimerEl = document.getElementById('delay-timer');
-        this.delayPromptEl = document.getElementById('delay-prompt');
-        this.delayStatusEl = document.getElementById('delay-status');
         this.playAgainBtn = document.getElementById('restart-btn');
         this.forcedModal = false;
     }
@@ -201,10 +199,9 @@ class DecimationProtocol {
     }
 
     getDelayForTier(nextTier) {
-        if (nextTier >= 9) return 60 * 1000;
-        if (nextTier >= 6) return 3 * 60 * 1000;
-        if (nextTier >= 3) return 5 * 60 * 1000;
-        if (nextTier === 2) return 5 * 60 * 1000;
+        if (nextTier >= 7) return 60 * 1000;
+        if (nextTier >= 4) return 3 * 60 * 1000;
+        if (nextTier >= 2) return 5 * 60 * 1000;
         return 15 * 60 * 1000;
     }
 
@@ -259,12 +256,6 @@ class DecimationProtocol {
         if (this.tierDropEl) {
             this.tierDropEl.innerText = `Self Control Tier ${previousTier} → Tier ${nextTier}`;
         }
-        if (this.delayPromptEl) {
-            this.delayPromptEl.innerText = `Wait ${this.formatDuration(this.state.delayDurationMs)} to earn the right to play at your new Tier ${nextTier} penalty.`;
-        }
-        if (this.delayStatusEl && this.timeService.usingFallback) {
-            this.delayStatusEl.innerText = 'Secure time unavailable; using local clock enforcement.';
-        }
     }
 
     formatDuration(ms) {
@@ -300,9 +291,6 @@ class DecimationProtocol {
         this.state.delayDurationMs = 0;
         this.saveState();
         this.setPlayAgainEnabled(true);
-        if (this.delayPromptEl) {
-            this.delayPromptEl.innerText = `You may now play at Tier ${nextTier}. Stay vigilant.`;
-        }
     }
 
     applyLock(active) {
@@ -345,9 +333,6 @@ class DecimationProtocol {
 
     handlePlayAgain(callback) {
         if (this.isDelayActive()) {
-            if (this.delayStatusEl) {
-                this.delayStatusEl.innerText = 'Delay still active — wait for the timer to reach 00:00.';
-            }
             return;
         }
         callback();
