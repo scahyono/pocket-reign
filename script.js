@@ -213,6 +213,7 @@ class DecimationProtocol {
             this.grantProtection(now);
         }
 
+        const eligibleForReset = this.getResetRemainingMs() <= 0;
         const celebrationPending = eligibleForReset && lastGameAt && this.state.lastCelebratedGameAt !== lastGameAt;
         if (celebrationPending) {
             this.state.lastCelebratedGameAt = lastGameAt;
