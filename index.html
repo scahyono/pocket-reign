@@ -45,19 +45,30 @@
         </div>
     </div>
 
-    <div id="game-container">
-        <section id="top-section">
-            <div id="branding-bar" class="panel">
-                <div class="branding-titles">
-                    <h1 class="game-title">Focus Reign</h1>
-                    <p class="game-tagline">Claim the realm before your rival.</p>
-                </div>
+    <div id="welcome-overlay" class="welcome-overlay hidden" role="dialog" aria-modal="true">
+        <div class="welcome-card">
+            <p class="welcome-kicker">Focus Reign</p>
+            <h2 id="welcome-title" class="welcome-title">Welcome</h2>
+            <p id="welcome-message" class="welcome-message">Welcome back.</p>
+            <div class="welcome-badge-slot">
                 <div id="protection-badge" class="protection-badge hidden" aria-live="polite" aria-atomic="true">
                     <span class="badge-icon">🛡️</span>
                     <div class="badge-text">
                         <span class="badge-title">Focus Protection</span>
                         <span id="badge-subtitle" class="badge-subtitle">Locked at Rank 10</span>
                     </div>
+                </div>
+            </div>
+            <button id="welcome-start" class="btn primary large">Enter the Realm</button>
+        </div>
+    </div>
+
+    <div id="game-container">
+        <section id="top-section">
+            <div id="branding-bar" class="panel">
+                <div class="branding-titles">
+                    <h1 class="game-title">Focus Reign</h1>
+                    <p class="game-tagline">Claim the realm before your rival.</p>
                 </div>
                 <div id="faction-display" class="faction">
                     <span id="player-faction-icon" class="icon"></span>

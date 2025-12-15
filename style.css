@@ -78,7 +78,6 @@ body {
     padding: 10px 14px;
     border-radius: 999px;
     box-shadow: 0 8px 25px rgba(58, 223, 146, 0.2);
-    animation: badge-pop 2s ease-in-out infinite;
 }
 
 .badge-icon {
@@ -489,6 +488,11 @@ body.delay-active #game-container {
     pointer-events: none;
 }
 
+body.welcome-active #game-container {
+    filter: blur(2px);
+    pointer-events: none;
+}
+
 body.celebration-active #game-container {
     filter: blur(3px);
     pointer-events: none;
@@ -560,6 +564,55 @@ body.exit-active #game-container {
     color: #d7e7d8;
     margin: 8px 0 14px;
     line-height: 1.5;
+}
+
+.welcome-overlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(145deg, rgba(18, 18, 18, 0.92), rgba(12, 12, 12, 0.9));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 200;
+}
+
+.welcome-overlay.hidden {
+    display: none;
+}
+
+.welcome-card {
+    background: rgba(24, 24, 24, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px 22px;
+    width: min(520px, 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+}
+
+.welcome-kicker {
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #9ee6bd;
+    font-weight: 700;
+    font-size: 0.85em;
+}
+
+.welcome-title {
+    font-size: 2em;
+    margin: 0;
+}
+
+.welcome-message {
+    color: #d7d7d7;
+}
+
+.welcome-badge-slot {
+    display: flex;
+    justify-content: flex-start;
 }
 
 .gate-overlay,

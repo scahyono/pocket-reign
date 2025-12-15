@@ -144,7 +144,9 @@ class DecimationProtocol {
             protectionActive: false,
             protectionExpiresAt: null,
             protectionGrantedAt: null,
-            protectionCelebratedOn: null
+            protectionCelebratedOn: null,
+            lastWelcomeShownOn: null,
+            protectionSuppressedOn: null
         };
         this.timerInterval = null;
 
@@ -165,6 +167,10 @@ class DecimationProtocol {
         this.confirmationExitBtn = document.getElementById('confirm-exit');
         this.exitScreenEl = document.getElementById('exit-screen');
         this.exitReturnBtn = document.getElementById('exit-return');
+        this.welcomeOverlayEl = document.getElementById('welcome-overlay');
+        this.welcomeTitleEl = document.getElementById('welcome-title');
+        this.welcomeMessageEl = document.getElementById('welcome-message');
+        this.welcomeStartBtn = document.getElementById('welcome-start');
         this.protectionBadgeEl = document.getElementById('protection-badge');
         this.badgeSubtitleEl = document.getElementById('badge-subtitle');
         this.forcedModal = false;
@@ -173,6 +179,7 @@ class DecimationProtocol {
 
     initialize() {
         this.loadState();
+        this.prepareWelcomeScreen();
         this.syncProtectionWindow();
         this.applyResetIfNeeded();
         this.bindTierInfoToggle();
@@ -182,6 +189,7 @@ class DecimationProtocol {
         this.updateResetInfo();
         this.showConfirmationIfNeeded();
         this.updateProtectionBadge();
+        this.showWelcomeOverlay();
     }
 
     loadState() {
@@ -204,10 +212,72 @@ class DecimationProtocol {
         return this.timeService.now();
     }
 
+    getTodayKey() {
+        return new Date(this.getNow()).toDateString();
+    }
+
+    prepareWelcomeScreen() {
+        this.shouldShowWelcome = false;
+        if (!this.welcomeOverlayEl) return;
+        const today = this.getTodayKey();
+        const isNewDay = this.state.lastWelcomeShownOn !== today;
+
+        if (isNewDay) {
+            this.state.lastWelcomeShownOn = today;
+            this.state.protectionSuppressedOn = today;
+            this.removeProtectionForWelcome();
+            this.shouldShowWelcome = true;
+        }
+
+        this.saveState();
+        this.bindWelcomeActions();
+    }
+
+    bindWelcomeActions() {
+        if (this.welcomeStartBtn) {
+            this.welcomeStartBtn.addEventListener('click', () => this.hideWelcomeOverlay());
+        }
+    }
+
+    showWelcomeOverlay() {
+        if (!this.welcomeOverlayEl || !this.shouldShowWelcome) return;
+        document.body.classList.add('welcome-active');
+        this.updateWelcomeCopy();
+        this.welcomeOverlayEl.classList.remove('hidden');
+        this.updateProtectionBadge();
+    }
+
+    hideWelcomeOverlay() {
+        if (!this.welcomeOverlayEl) return;
+        this.welcomeOverlayEl.classList.add('hidden');
+        document.body.classList.remove('welcome-active');
+    }
+
+    updateWelcomeCopy() {
+        if (this.welcomeTitleEl) {
+            this.welcomeTitleEl.innerText = 'Welcome';
+        }
+        if (this.welcomeMessageEl) {
+            this.welcomeMessageEl.innerText = 'Welcome back.';
+        }
+    }
+
+    isProtectionSuppressedToday() {
+        return this.state.protectionSuppressedOn === this.getTodayKey();
+    }
+
+    removeProtectionForWelcome() {
+        this.state.protectionActive = false;
+        this.state.protectionExpiresAt = null;
+        this.state.protectionGrantedAt = null;
+        this.state.delayStartedAt = null;
+        this.state.delayDurationMs = 0;
+    }
+
     applyResetIfNeeded() {
         const now = this.getNow();
         const lastGameAt = this.state.lastGameAt;
-        const eligibleForProtection = lastGameAt && now - lastGameAt >= 3 * 60 * 60 * 1000 && !this.state.protectionActive;
+        const eligibleForProtection = lastGameAt && now - lastGameAt >= 3 * 60 * 60 * 1000 && !this.state.protectionActive && !this.isProtectionSuppressedToday();
 
         if (eligibleForProtection) {
             this.grantProtection(now);
@@ -524,13 +594,15 @@ class DecimationProtocol {
 
     handleSessionComplete() {
         const now = this.getNow();
+        this.state.protectionSuppressedOn = null;
         if (this.state.protectionActive) {
             this.state.tier = 10;
             this.state.lastTierPlayed = 10;
             this.state.lastGameAt = now;
-            this.state.delayStartedAt = null;
-            this.state.delayDurationMs = 0;
+            this.state.delayStartedAt = now;
+            this.state.delayDurationMs = this.getDelayForTier(10);
             this.saveState();
+            this.presentDelay(10, 10);
             this.updateProtectionBadge();
             this.updateResetInfo();
             return;
@@ -552,7 +624,6 @@ class DecimationProtocol {
     }
 
     isDelayActive() {
-        if (this.state.protectionActive) return false;
         if (!this.state.delayStartedAt || !this.state.delayDurationMs) return false;
         const now = this.getNow();
         return now < this.state.delayStartedAt + this.state.delayDurationMs;
@@ -584,10 +655,11 @@ class DecimationProtocol {
     }
 
     updateDelayTexts(previousTier, nextTier) {
+        const protectedText = this.state.protectionActive && nextTier === 10;
         if (this.tierDropTextEl) {
-            this.tierDropTextEl.innerText = `Focus Rank: ${nextTier} (was ${previousTier})`;
+            this.tierDropTextEl.innerText = protectedText ? `Focus Rank: ${nextTier} (protected)` : `Focus Rank: ${nextTier} (was ${previousTier})`;
         } else if (this.tierDropEl) {
-            this.tierDropEl.innerText = `Focus Rank: ${nextTier} (was ${previousTier})`;
+            this.tierDropEl.innerText = protectedText ? `Focus Rank: ${nextTier} (protected)` : `Focus Rank: ${nextTier} (was ${previousTier})`;
         }
         this.updateResetInfo();
     }
