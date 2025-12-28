@@ -17,6 +17,7 @@ Focus Reign is a minimalist 4X-inspired browser game where you race an opposing 
 - **Recruit:** Spend **50 Gold** to recruit a Warrior from your capital using the **Recruit Warrior** button.
 - **End Turn:** Press **End Turn** after issuing your moves to advance the round.
 - **Factions:** Each match randomly pairs your faction with a rival; icons in the HUD show the matchup.
+- **Cooldowns & Replays:** After a match, a cooldown timer locks the gray **Play Again** button until it expires. While waiting, tap the **Time to Act** CTA to open Google Calendar and schedule your next move.
 
 ## Terrain Legend
 - 🌿 **Grass:** Movement cost **1**.
