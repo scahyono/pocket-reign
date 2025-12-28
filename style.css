@@ -214,6 +214,25 @@ body {
     background: var(--accent-hover);
 }
 
+.btn.muted {
+    background: #3b3b3b;
+    color: #bfbfbf;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: none;
+}
+
+.btn.muted:hover {
+    background: #464646;
+    color: #d4d4d4;
+    box-shadow: none;
+}
+
+.btn.muted.disabled {
+    background: #2f2f2f;
+    color: #9a9a9a;
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
 .btn.secondary {
     background: #1f1f1f;
     border: 1px solid var(--border-color);
