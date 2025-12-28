@@ -22,7 +22,12 @@ const FACTIONS = [
         label: 'Warrior vs Warrior',
         prayer: '⚔️ O Almighty, grant me the strength to face every real warrior that rises against me.',
         link: 'https://tasks.google.com',
-        button: 'Accept Mission'
+        button: 'Accept Mission',
+        impact: {
+            emoji: '⚔️',
+            press: 'you confront it once.',
+            skip: 'it keeps coming back.'
+        }
     },
     {
         player: '👨‍⚕️',
@@ -30,7 +35,12 @@ const FACTIONS = [
         label: 'Healer vs Disease',
         prayer: '🧬 O Healer, protect my body and spirit from every real disease that approaches.',
         link: 'https://tasks.google.com',
-        button: 'Begin Healing'
+        button: 'Begin Healing',
+        impact: {
+            emoji: '👨‍⚕️',
+            press: 'recovery starts quietly.',
+            skip: 'damage compounds silently.'
+        }
     },
     {
         player: '🏃',
@@ -38,7 +48,12 @@ const FACTIONS = [
         label: 'Discipline vs Temptation',
         prayer: '💪 O Protector, guard my heart from the pull of real temptation.',
         link: 'https://tasks.google.com',
-        button: 'Stay Strong'
+        button: 'Stay Strong',
+        impact: {
+            emoji: '🏃',
+            press: 'temptation passes.',
+            skip: 'regret stays.'
+        }
     },
     {
         player: '🧘',
@@ -46,7 +61,12 @@ const FACTIONS = [
         label: 'Calm vs Chaos',
         prayer: '🕊️ O Source of Peace, steady my breath as I stand inside real chaos.',
         link: 'https://www.islamicfinder.org/athan/',
-        button: 'Enter Salam'
+        button: 'Enter Salam',
+        impact: {
+            emoji: '🧘',
+            press: 'you stay calm.',
+            skip: 'chaos wins.'
+        }
     },
     {
         player: '💼',
@@ -54,7 +74,12 @@ const FACTIONS = [
         label: 'Business vs Setbacks',
         prayer: '📈 O Sustainer, lift me through real setbacks and strengthen my steps.',
         link: 'https://calendar.google.com/calendar/r/day',
-        button: 'Plan Strategy'
+        button: 'Plan Strategy',
+        impact: {
+            emoji: '💼',
+            press: 'setbacks become moves.',
+            skip: 'setbacks decide for you.'
+        }
     },
     {
         player: '📊',
@@ -62,7 +87,12 @@ const FACTIONS = [
         label: 'Growth vs Expenses',
         prayer: '💹 O Provider, bless my growth and shield me from real expenses that drain my path.',
         link: 'https://mail.google.com/',
-        button: 'Secure Assets'
+        button: 'Secure Assets',
+        impact: {
+            emoji: '📊',
+            press: 'growth survives leaks.',
+            skip: 'expenses eat progress.'
+        }
     },
     {
         player: '🤝',
@@ -70,7 +100,12 @@ const FACTIONS = [
         label: 'Closer vs Rejection',
         prayer: '📨 O Opener of Hearts, grant me grace and courage before every real rejection.',
         link: 'https://www.whatsapp.com/download/',
-        button: 'Seal the Deal'
+        button: 'Seal the Deal',
+        impact: {
+            emoji: '🤝',
+            press: 'rejection loses power.',
+            skip: 'momentum dies waiting.'
+        }
     },
     {
         player: '🧺',
@@ -78,7 +113,12 @@ const FACTIONS = [
         label: 'Basket vs Pile',
         prayer: '✨ O Focus, grant me the energy to restore order to this space.',
         link: 'https://music.youtube.com/',
-        button: 'Walk & Drop'
+        button: 'Walk & Drop',
+        impact: {
+            emoji: '🧺',
+            press: 'space clears fast.',
+            skip: 'clutter drains energy.'
+        }
     },
     {
         player: '🧹',
@@ -86,7 +126,12 @@ const FACTIONS = [
         label: 'Mop vs Leak',
         prayer: '� O Purifier, grant me swiftness to contain the mess and remove hazards.',
         link: 'https://music.youtube.com/',
-        button: 'Wipe Clean'
+        button: 'Wipe Clean',
+        impact: {
+            emoji: '🧹',
+            press: 'damage is contained.',
+            skip: 'mess spreads.'
+        }
     },
     {
         player: '✨',
@@ -94,7 +139,12 @@ const FACTIONS = [
         label: 'Clarify vs Fog',
         prayer: '✨ O Light of the heavens and the earth, illuminate every real void I face.',
         link: 'https://notebooklm.google.com/',
-        button: 'Seek Wisdom'
+        button: 'Seek Wisdom',
+        impact: {
+            emoji: '✨',
+            press: 'fog lifts.',
+            skip: 'you guess blind.'
+        }
     },
     {
         player: '🔥',
@@ -102,7 +152,12 @@ const FACTIONS = [
         label: 'Motivation vs Procrastination',
         prayer: '🔥 O Inspirer, ignite my will and melt away real procrastination from my path.',
         link: 'https://music.youtube.com/',
-        button: 'Ignite Fire'
+        button: 'Ignite Fire',
+        impact: {
+            emoji: '🔥',
+            press: 'momentum ignites.',
+            skip: 'procrastination hardens.'
+        }
     }
 ];
 
@@ -897,7 +952,9 @@ class Game {
         this.refreshUnitIcons();
         this.setupInput();
         this.renderFactionList();
+        this.setupImpactToggle();
         this.updateUI();
+        this.updateFactionCta();
         this.updateSelectionUI();
 
         // Start Game Loop
@@ -996,6 +1053,13 @@ class Game {
         const prayerEl = document.getElementById('faction-prayer');
         const factionCtaBtn = document.getElementById('faction-cta-btn');
         const factionCtaText = document.getElementById('faction-cta-text');
+        const impactPanel = document.getElementById('impact-panel');
+        const impactBody = document.getElementById('impact-body');
+        const impactPress = document.getElementById('impact-press');
+        const impactSkip = document.getElementById('impact-skip');
+        const impactToggle = document.getElementById('impact-toggle');
+        const impactToggleEmoji = document.getElementById('impact-toggle-emoji');
+        const impact = this.faction?.impact;
 
         if (prayerEl) {
             prayerEl.innerText = this.faction.prayer || '';
@@ -1007,6 +1071,29 @@ class Game {
 
         if (factionCtaText) {
             factionCtaText.textContent = this.faction.button || 'View Mission';
+        }
+
+        if (impactPanel) {
+            if (impact?.press && impact?.skip) {
+                impactPanel.classList.remove('hidden');
+                if (impactPress) impactPress.textContent = impact.press;
+                if (impactSkip) impactSkip.textContent = impact.skip;
+
+                const emojiText = impact.emoji || this.faction.player || '❔';
+                if (impactToggleEmoji) {
+                    impactToggleEmoji.textContent = emojiText;
+                }
+                if (impactToggle) {
+                    impactToggle.setAttribute('aria-label', `${emojiText} impact details toggle`);
+                    impactToggle.setAttribute('aria-expanded', 'false');
+                }
+
+                if (impactBody) {
+                    impactBody.classList.add('hidden');
+                }
+            } else {
+                impactPanel.classList.add('hidden');
+            }
         }
     }
 
@@ -1352,6 +1439,20 @@ class Game {
 
         window.addEventListener('keydown', (e) => {
             if (e.code === 'Space') this.endTurn();
+        });
+    }
+
+    setupImpactToggle() {
+        const impactToggle = document.getElementById('impact-toggle');
+        const impactBody = document.getElementById('impact-body');
+
+        if (!impactToggle || !impactBody) return;
+
+        impactToggle.addEventListener('click', () => {
+            const expanded = impactToggle.getAttribute('aria-expanded') === 'true';
+            const next = !expanded;
+            impactToggle.setAttribute('aria-expanded', next ? 'true' : 'false');
+            impactBody.classList.toggle('hidden', !next);
         });
     }
 

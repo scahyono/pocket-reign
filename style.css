@@ -476,6 +476,39 @@ canvas {
     color: #c8d5ff;
 }
 
+.impact-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+}
+
+.impact-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.impact-toggle-label {
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.impact-body {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-align: left;
+    line-height: 1.5;
+}
+
+.impact-line {
+    margin: 0;
+}
+
 .btn.disabled,
 .plain-link.disabled {
     opacity: 0.4;
