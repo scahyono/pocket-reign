@@ -161,6 +161,20 @@ const FACTIONS = [
     }
 ];
 
+const SLEEP_FACTION = {
+    player: '🌙',
+    enemy: '⏰',
+    label: 'Rest vs Restlessness',
+    prayer: '😴 O Guardian of the night, calm my thoughts and let real rest take over.',
+    link: 'https://youtu.be/m8p3Ba_VJAQ?si=oWwliXAKsEuhIrYN',
+    button: 'Drift to Sleep',
+    impact: {
+        emoji: '🌙',
+        press: 'you soften into true rest.',
+        skip: 'restlessness steals tomorrow.'
+    }
+};
+
 const TERRAIN = {
     GRASS: { color: '#4caf50', moveCost: 1, name: 'Grassland' },
     WATER: { color: '#2196f3', moveCost: Infinity, name: 'Ocean' },
@@ -1002,9 +1016,27 @@ class Game {
         this.height = this.canvas.height = size;
     }
 
+    isSleepWindow() {
+        const hours = new Date().getHours();
+        return hours >= 22 || hours < 6;
+    }
+
+    getAvailableFactions() {
+        const factions = [...FACTIONS];
+        if (this.isSleepWindow()) {
+            factions.push(SLEEP_FACTION);
+        }
+        return factions;
+    }
+
     getRandomFaction() {
-        const idx = Math.floor(Math.random() * FACTIONS.length);
-        return FACTIONS[idx];
+        if (this.isSleepWindow() && Math.random() < 0.5) {
+            return SLEEP_FACTION;
+        }
+
+        const pool = this.getAvailableFactions().filter(faction => faction !== SLEEP_FACTION);
+        const idx = Math.floor(Math.random() * pool.length);
+        return pool[idx];
     }
 
     renderFactionList() {
@@ -1012,7 +1044,8 @@ class Game {
         if (!listEl) return;
 
         listEl.innerHTML = '';
-        FACTIONS.forEach(faction => {
+        const factions = this.getAvailableFactions();
+        factions.forEach(faction => {
             const item = document.createElement('button');
             item.type = 'button';
             item.className = 'legend-item faction-item';
