@@ -22,7 +22,7 @@ test('sleep faction is only added to random pool at night with a successful roll
     const rng = () => 0.2;
     const pool = buildRandomFactionPool({ baseFactions: FACTIONS, sleepFaction: SLEEP_FACTION, date, rng });
 
-    assert.ok(pool.includes(SLEEP_FACTION), 'Sleep faction should be present when in window and roll succeeds');
+    assert.deepStrictEqual(pool, [SLEEP_FACTION], 'Successful roll during sleep window should return only the sleep faction');
 });
 
 test('sleep faction stays out of the random pool when chance fails', () => {
@@ -31,6 +31,7 @@ test('sleep faction stays out of the random pool when chance fails', () => {
     const pool = buildRandomFactionPool({ baseFactions: FACTIONS, sleepFaction: SLEEP_FACTION, date, rng });
 
     assert.ok(!pool.includes(SLEEP_FACTION), 'Sleep faction should be excluded when roll fails');
+    assert.strictEqual(pool.length, FACTIONS.length, 'Failed roll should leave only the base factions');
 });
 
 test('sleep faction has a 50% chance during sleep window with deterministic RNG', () => {
@@ -40,9 +41,7 @@ test('sleep faction has a 50% chance during sleep window with deterministic RNG'
     let includedCount = 0;
     for (let i = 0; i < 6; i++) {
         const pool = buildRandomFactionPool({ baseFactions: FACTIONS, sleepFaction: SLEEP_FACTION, date, rng });
-        if (pool.includes(SLEEP_FACTION)) {
-            includedCount += 1;
-        }
+        if (pool.includes(SLEEP_FACTION)) includedCount += 1;
     }
 
     assert.strictEqual(includedCount, 3, 'Sleep faction should appear exactly when RNG falls below 0.5');
@@ -54,6 +53,16 @@ test('sleep faction is not included outside the nighttime window', () => {
     const pool = buildRandomFactionPool({ baseFactions: FACTIONS, sleepFaction: SLEEP_FACTION, date, rng });
 
     assert.ok(!pool.includes(SLEEP_FACTION), 'Sleep faction should be excluded outside the nighttime window');
+    assert.strictEqual(pool.length, FACTIONS.length, 'Daytime should only surface base factions');
+});
+
+test('sleep faction can still roll at 5:50am with a winning chance', () => {
+    const date = new Date(2023, 0, 1, 5, 50);
+    const rng = () => 0.3;
+
+    const pool = buildRandomFactionPool({ baseFactions: FACTIONS, sleepFaction: SLEEP_FACTION, date, rng });
+
+    assert.deepStrictEqual(pool, [SLEEP_FACTION], 'Early morning sleep window should still allow the sleep faction to roll');
 });
 
 test('isSleepWindow flags 10pm-6am as night', () => {

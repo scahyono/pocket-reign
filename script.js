@@ -190,13 +190,14 @@ function buildRandomFactionPool({
     date = new Date(),
     rng = Math.random
 } = {}) {
-    const pool = [...baseFactions];
-    const shouldIncludeSleep = isSleepWindow(date) && rng() < 0.5;
-    if (shouldIncludeSleep) {
-        pool.push(sleepFaction);
+    const isNight = isSleepWindow(date);
+    const sleepRollWins = isNight && rng() < 0.5;
+
+    if (sleepRollWins) {
+        return [sleepFaction];
     }
 
-    return pool;
+    return [...baseFactions];
 }
 
 function createSequenceRng(sequence = []) {
