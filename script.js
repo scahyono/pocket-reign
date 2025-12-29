@@ -181,7 +181,7 @@ function buildFactionPool(baseFactions = FACTIONS, sleepFaction = SLEEP_FACTION)
 
 function isSleepWindow(date = new Date()) {
     const hours = date.getHours();
-    return hours >= 22 || hours < 7;
+    return hours >= 22 || hours < 6;
 }
 
 function buildRandomFactionPool({

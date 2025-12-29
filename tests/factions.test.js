@@ -54,15 +54,15 @@ test('sleep faction stays present at 5:50am', () => {
     assert.ok(pool.includes(SLEEP_FACTION), 'Early morning sleep window should include the sleep faction');
 });
 
-test('isSleepWindow flags 10pm-7am as night', () => {
+test('isSleepWindow flags 10pm-6am as night', () => {
     const inWindow = [
         new Date(2023, 0, 1, 22, 0, 0),
         new Date(2023, 0, 1, 23, 59, 59),
-        new Date(2023, 0, 1, 6, 59, 59)
+        new Date(2023, 0, 1, 5, 59, 59)
     ];
 
     const outWindow = [
-        new Date(2023, 0, 1, 7, 0, 0),
+        new Date(2023, 0, 1, 6, 0, 0),
         new Date(2023, 0, 1, 21, 59, 59)
     ];
 
