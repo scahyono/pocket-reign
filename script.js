@@ -175,6 +175,16 @@ const SLEEP_FACTION = {
     }
 };
 
+function buildFactionPool(baseFactions = FACTIONS, sleepFaction = SLEEP_FACTION) {
+    return [...baseFactions, sleepFaction];
+}
+
+function pickRandomFaction(factions, rng = Math.random) {
+    if (!Array.isArray(factions) || factions.length === 0) return null;
+    const idx = Math.floor(rng() * factions.length);
+    return factions[idx];
+}
+
 const TERRAIN = {
     GRASS: { color: '#4caf50', moveCost: 1, name: 'Grassland' },
     WATER: { color: '#2196f3', moveCost: Infinity, name: 'Ocean' },
@@ -1016,27 +1026,14 @@ class Game {
         this.height = this.canvas.height = size;
     }
 
-    isSleepWindow() {
-        const hours = new Date().getHours();
-        return hours >= 22 || hours < 6;
-    }
-
     getAvailableFactions() {
-        const factions = [...FACTIONS];
-        if (this.isSleepWindow()) {
-            factions.push(SLEEP_FACTION);
-        }
-        return factions;
+        return buildFactionPool();
     }
 
-    getRandomFaction() {
-        if (this.isSleepWindow() && Math.random() < 0.5) {
-            return SLEEP_FACTION;
-        }
-
-        const pool = this.getAvailableFactions().filter(faction => faction !== SLEEP_FACTION);
-        const idx = Math.floor(Math.random() * pool.length);
-        return pool[idx];
+    getRandomFaction(rng = Math.random) {
+        const pool = this.getAvailableFactions();
+        const faction = pickRandomFaction(pool, rng);
+        return faction ?? SLEEP_FACTION;
     }
 
     renderFactionList() {
@@ -2066,6 +2063,10 @@ if (typeof window !== 'undefined') {
 if (typeof module !== 'undefined') {
     module.exports = {
         findSpawnPositionsForMap,
-        TERRAIN
+        TERRAIN,
+        FACTIONS,
+        SLEEP_FACTION,
+        buildFactionPool,
+        pickRandomFaction
     };
 }
