@@ -16,7 +16,7 @@ Focus Reign is a minimalist 4X-inspired browser game where you race an opposing 
 - **Move & Claim:** Select a unit and click an adjacent tile to move; entering a tile automatically claims it.
 - **Recruit:** Spend **50 Gold** to recruit a Warrior from your capital using the **Recruit Warrior** button.
 - **End Turn:** Press **End Turn** after issuing your moves to advance the round.
-- **Factions:** Each match randomly pairs your faction with a rival; icons in the HUD show the matchup. The **Rest vs Restlessness** sleep theme is listed in the faction help panel all day, but random rolls only surface it between **10 PM and 6 AM** with a **50%** chance. It links to a calming session on [YouTube](https://youtu.be/m8p3Ba_VJAQ?si=oWwliXAKsEuhIrYN).
+- **Factions:** Each match randomly pairs your faction with a rival; icons in the HUD show the matchup. The **Rest vs Restlessness** sleep theme is listed in the faction help panel all day, but random rolls only surface it between **10 PM and 6 AM** with a **50%** chance. It links to a calming session on [YouTube](https://youtu.be/m8p3Ba_VJAQ?si=oWwliXAKsEuhIrYN). The **Business vs Setbacks** deep work theme gets a **50%** roll between **8 AM and 12 PM**.
 - **Cooldowns & Replays:** After a match, a cooldown timer locks the gray **Play Again** button until it expires. While waiting, tap the **Time to Act** CTA to open Google Calendar and schedule your next move.
 - **Rank Protection:** Three hours of abstinence after your last session locks in Rank 10 protection for the rest of the day. If you haven’t played since yesterday and it’s already past noon, the game assumes you’ve satisfied that 3-hour window and lets protection trigger immediately once you finish a run.
 
@@ -49,4 +49,3 @@ Focus Reign is a minimalist 4X-inspired browser game where you race an opposing 
 | Android | iPhone |
 |:-------:|:------:|
 | <img src="screenshots/android_screenshot.png" width="300"> | <img src="screenshots/iphone_screenshot.png" width="300"> |
-

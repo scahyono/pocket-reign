@@ -161,6 +161,8 @@ const FACTIONS = [
     }
 ];
 
+const DEEP_WORK_FACTION = FACTIONS.find(faction => faction.button === 'Deep Work');
+
 const SLEEP_FACTION = {
     player: '🌙',
     enemy: '⏰',
@@ -182,6 +184,11 @@ function buildFactionPool(baseFactions = FACTIONS, sleepFaction = SLEEP_FACTION)
 function isSleepWindow(date = new Date()) {
     const hours = date.getHours();
     return hours >= 22 || hours < 6;
+}
+
+function isDeepWorkWindow(date = new Date()) {
+    const hours = date.getHours();
+    return hours >= 8 && hours < 12;
 }
 
 function buildRandomFactionPool({
@@ -228,11 +235,24 @@ function createSequenceRng(sequence = []) {
 
 function pickRandomFaction(factions, rng = Math.random, {
     date = new Date(),
-    sleepFaction = SLEEP_FACTION
+    sleepFaction = SLEEP_FACTION,
+    deepWorkFaction = DEEP_WORK_FACTION
 } = {}) {
     if (!Array.isArray(factions) || factions.length === 0) return null;
 
+    const hasDeepWorkFaction = isDeepWorkWindow(date) && deepWorkFaction && factions.includes(deepWorkFaction);
     const hasSleepFaction = isSleepWindow(date) && factions.includes(sleepFaction);
+
+    if (hasDeepWorkFaction) {
+        const pickDeepWork = rng() < 0.5;
+        if (pickDeepWork) return deepWorkFaction;
+
+        const baseFactions = factions.filter(f => f !== deepWorkFaction);
+        if (baseFactions.length === 0) return deepWorkFaction;
+
+        const idx = Math.floor(rng() * baseFactions.length);
+        return baseFactions[idx];
+    }
 
     if (hasSleepFaction) {
         const pickSleep = rng() < 0.5;
@@ -2143,6 +2163,8 @@ if (typeof module !== 'undefined') {
         isSleepWindow,
         pickRandomFaction,
         createSequenceRng,
-        computeEffectiveLastGameAt
+        computeEffectiveLastGameAt,
+        DEEP_WORK_FACTION,
+        isDeepWorkWindow
     };
 }

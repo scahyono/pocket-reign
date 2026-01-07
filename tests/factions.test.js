@@ -4,9 +4,11 @@ const test = require('node:test');
 const {
     FACTIONS,
     SLEEP_FACTION,
+    DEEP_WORK_FACTION,
     buildFactionPool,
     buildRandomFactionPool,
     isSleepWindow,
+    isDeepWorkWindow,
     pickRandomFaction,
     createSequenceRng
 } = require('../script.js');
@@ -47,11 +49,40 @@ test('sleep faction is not included outside the nighttime window', () => {
     assert.strictEqual(pool.length, FACTIONS.length, 'Daytime should only surface base factions');
 });
 
+test('deep work faction has a 50% selection chance in the morning with deterministic RNG', () => {
+    const date = new Date(2023, 0, 1, 9, 0);
+    const rng = createSequenceRng([0.2, 0.9, 0.7, 0.1, 0.8, 0.2]);
+    const pool = buildRandomFactionPool({ baseFactions: FACTIONS, sleepFaction: SLEEP_FACTION, date });
+
+    let deepWorkPicked = 0;
+    for (let i = 0; i < 4; i++) {
+        const picked = pickRandomFaction(pool, rng, { date, deepWorkFaction: DEEP_WORK_FACTION });
+        if (picked === DEEP_WORK_FACTION) deepWorkPicked += 1;
+    }
+
+    assert.strictEqual(deepWorkPicked, 2, 'Deep work faction should be selected 50% of the time during the morning window');
+});
+
 test('sleep faction stays present at 5:50am', () => {
     const date = new Date(2023, 0, 1, 5, 50);
     const pool = buildRandomFactionPool({ baseFactions: FACTIONS, sleepFaction: SLEEP_FACTION, date });
 
     assert.ok(pool.includes(SLEEP_FACTION), 'Early morning sleep window should include the sleep faction');
+});
+
+test('isDeepWorkWindow flags 8am-12pm as the deep work window', () => {
+    const inWindow = [
+        new Date(2023, 0, 1, 8, 0, 0),
+        new Date(2023, 0, 1, 11, 59, 59)
+    ];
+
+    const outWindow = [
+        new Date(2023, 0, 1, 7, 59, 59),
+        new Date(2023, 0, 1, 12, 0, 0)
+    ];
+
+    inWindow.forEach(date => assert.ok(isDeepWorkWindow(date), `${date.toISOString()} should be within the deep work window`));
+    outWindow.forEach(date => assert.ok(!isDeepWorkWindow(date), `${date.toISOString()} should be outside the deep work window`));
 });
 
 test('isSleepWindow flags 10pm-6am as night', () => {
