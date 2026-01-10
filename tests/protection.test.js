@@ -1,7 +1,7 @@
 const assert = require('node:assert');
 const test = require('node:test');
 
-const { computeEffectiveLastGameAt } = require('../script.js');
+const { computeEffectiveLastGameAt, shouldDeferProtectionCheck } = require('../script.js');
 
 const THREE_HOURS_MS = 3 * 60 * 60 * 1000;
 
@@ -36,4 +36,13 @@ test('before noon with no session returns original value', () => {
     const effective = computeEffectiveLastGameAt(null, now);
 
     assert.strictEqual(effective, null);
+});
+
+test('defers protection checks when welcome has not shown today', () => {
+    assert.strictEqual(shouldDeferProtectionCheck(null, 'Wed Jan 03 2024'), true);
+    assert.strictEqual(shouldDeferProtectionCheck('Tue Jan 02 2024', 'Wed Jan 03 2024'), true);
+});
+
+test('does not defer protection checks when welcome already shown today', () => {
+    assert.strictEqual(shouldDeferProtectionCheck('Wed Jan 03 2024', 'Wed Jan 03 2024'), false);
 });

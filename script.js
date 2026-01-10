@@ -224,6 +224,10 @@ function computeEffectiveLastGameAt(lastGameAt, nowMs = Date.now()) {
     return lastGameAt;
 }
 
+function shouldDeferProtectionCheck(lastWelcomeShownOn, todayKey) {
+    return lastWelcomeShownOn !== todayKey;
+}
+
 function createSequenceRng(sequence = []) {
     let index = 0;
     return () => {
@@ -352,8 +356,7 @@ class DecimationProtocol {
             protectionExpiresAt: null,
             protectionGrantedAt: null,
             protectionCelebratedOn: null,
-            lastWelcomeShownOn: null,
-            protectionSuppressedOn: null
+            lastWelcomeShownOn: null
         };
         this.timerInterval = null;
 
@@ -382,19 +385,24 @@ class DecimationProtocol {
         this.badgeSubtitleEl = document.getElementById('badge-subtitle');
         this.forcedModal = false;
         this.confirmationInterval = null;
+        this.deferProtectionCheck = false;
     }
 
     initialize() {
         this.loadState();
         this.prepareWelcomeScreen();
         this.syncProtectionWindow();
-        this.applyResetIfNeeded();
+        if (!this.deferProtectionCheck) {
+            this.applyResetIfNeeded();
+        }
         this.bindTierInfoToggle();
         this.bindCelebrationDismiss();
         this.bindConfirmationActions();
         this.refreshDelayUI();
         this.updateResetInfo();
-        this.showConfirmationIfNeeded();
+        if (!this.deferProtectionCheck) {
+            this.showConfirmationIfNeeded();
+        }
         this.updateProtectionBadge();
         this.showWelcomeOverlay();
     }
@@ -431,12 +439,11 @@ class DecimationProtocol {
         this.shouldShowWelcome = false;
         if (!this.welcomeOverlayEl) return;
         const today = this.getTodayKey();
-        const isNewDay = this.state.lastWelcomeShownOn !== today;
+        const isNewDay = shouldDeferProtectionCheck(this.state.lastWelcomeShownOn, today);
+        this.deferProtectionCheck = isNewDay;
 
         if (isNewDay) {
             this.state.lastWelcomeShownOn = today;
-            this.state.protectionSuppressedOn = today;
-            this.removeProtectionForWelcome();
             this.shouldShowWelcome = true;
         }
 
@@ -462,6 +469,8 @@ class DecimationProtocol {
         if (!this.welcomeOverlayEl) return;
         this.welcomeOverlayEl.classList.add('hidden');
         document.body.classList.remove('welcome-active');
+        this.deferProtectionCheck = false;
+        this.runPostWelcomeChecks();
     }
 
     updateWelcomeCopy() {
@@ -473,22 +482,10 @@ class DecimationProtocol {
         }
     }
 
-    isProtectionSuppressedToday() {
-        return this.state.protectionSuppressedOn === this.getTodayKey();
-    }
-
-    removeProtectionForWelcome() {
-        this.state.protectionActive = false;
-        this.state.protectionExpiresAt = null;
-        this.state.protectionGrantedAt = null;
-        this.state.delayStartedAt = null;
-        this.state.delayDurationMs = 0;
-    }
-
     applyResetIfNeeded() {
         const now = this.getNow();
         const lastGameAt = this.getEffectiveLastGameAt(now);
-        const eligibleForProtection = lastGameAt && now - lastGameAt >= 3 * 60 * 60 * 1000 && !this.state.protectionActive && !this.isProtectionSuppressedToday();
+        const eligibleForProtection = lastGameAt && now - lastGameAt >= 3 * 60 * 60 * 1000 && !this.state.protectionActive;
 
         if (eligibleForProtection) {
             this.grantProtection(now);
@@ -508,6 +505,15 @@ class DecimationProtocol {
         if (this.state.protectionActive && this.state.protectionExpiresAt && this.getNow() >= this.state.protectionExpiresAt) {
             this.clearProtection();
         }
+    }
+
+    runPostWelcomeChecks() {
+        if (this.deferProtectionCheck) return;
+        this.syncProtectionWindow();
+        this.applyResetIfNeeded();
+        this.showConfirmationIfNeeded();
+        this.updateProtectionBadge();
+        this.updateResetInfo();
     }
 
     getEndOfDayTimestamp(referenceMs) {
@@ -809,7 +815,6 @@ class DecimationProtocol {
 
     handleSessionComplete() {
         const now = this.getNow();
-        this.state.protectionSuppressedOn = null;
         if (this.state.protectionActive) {
             this.state.tier = 10;
             this.state.lastTierPlayed = 10;
@@ -2164,6 +2169,7 @@ if (typeof module !== 'undefined') {
         pickRandomFaction,
         createSequenceRng,
         computeEffectiveLastGameAt,
+        shouldDeferProtectionCheck,
         DEEP_WORK_FACTION,
         isDeepWorkWindow
     };
