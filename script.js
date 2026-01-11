@@ -21,7 +21,7 @@ const FACTIONS = [
         enemy: '⚔️',
         label: 'Warrior vs Warrior',
         prayer: '⚔️ O Almighty, grant me the strength to face my mortal enemy.',
-        link: 'https://tasks.google.com',
+        link: 'https://calendar.google.com/calendar/r/day',
         button: 'Accept Mission',
         impact: {
             emoji: '⚔️',
@@ -34,7 +34,7 @@ const FACTIONS = [
         enemy: '🦠',
         label: 'Healer vs Disease',
         prayer: '🧬 O Healer, protect my body and spirit from every disease that approaches.',
-        link: 'https://tasks.google.com',
+        link: 'https://calendar.google.com/calendar/r/day',
         button: 'Begin Self Care',
         impact: {
             emoji: '👨‍⚕️',
@@ -47,7 +47,7 @@ const FACTIONS = [
         enemy: '🍔',
         label: 'Discipline vs Temptation',
         prayer: '💪 O Protector, guard my heart from the pull of temptation.',
-        link: 'https://tasks.google.com',
+        link: 'https://calendar.google.com/calendar/r/day',
         button: 'Stay Strong',
         impact: {
             emoji: '🏃',
